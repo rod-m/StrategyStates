@@ -8,7 +8,8 @@ namespace GenericStateSystem.ActionStates
         public float TurnSpeed = 10f;
         public KeyCode SprintJoystick = KeyCode.JoystickButton2;
         public KeyCode SprintKeyboard = KeyCode.Space;
-
+        public KeyCode CrouchKeyboard = KeyCode.LeftShift;
+        public KeyCode JumpKeyboard = KeyCode.Joystick1Button3;
         private float _turnSpeedMultiplier;
         private float _speed = 0f;
         private float _direction = 0f;
@@ -55,12 +56,17 @@ namespace GenericStateSystem.ActionStates
                 _direction = 0f;
 
             _character.anim.SetFloat("Direction", _direction);
-
+            //is couching
+            bool _isCrouching = (Input.GetKey(CrouchKeyboard));
             // set sprinting
             _isSprinting = ((Input.GetKey(SprintJoystick) || Input.GetKey(SprintKeyboard)) && _input != Vector2.zero &&
                             _direction >= 0f);
+            if (_isCrouching)
+            {
+                _isSprinting = false;
+            }
             _anim.SetBool("isSprinting", _isSprinting);
-
+            _anim.SetBool("isCrouching", _isCrouching);
             // Update target direction relative to the camera view (or not if the Keep Direction option is checked)
             UpdateTargetDirection();
             if (_input != Vector2.zero && _targetDirection.magnitude > 0.1f)
@@ -93,7 +99,7 @@ namespace GenericStateSystem.ActionStates
 
         public override void TransitionState()
         {
-            if (Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetKeyDown(JumpKeyboard))
             {
                 _character.stateMachine.MakeTransitionState(new JumpState(_character, _character.stateMachine));
             }
