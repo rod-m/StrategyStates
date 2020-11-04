@@ -107,7 +107,8 @@ namespace GenericStateSystem.ActionStates
 
         public override void EndState()
         {
-            
+            _anim.SetBool("isSprinting", false);
+            _anim.SetBool("isCrouching", false);
         }
     }
 }
