@@ -7,9 +7,9 @@ namespace GenericStateSystem.ActionStates
         public bool LockToCameraForward = false;
         public float TurnSpeed = 10f;
         public KeyCode SprintJoystick = KeyCode.JoystickButton2;
-        public KeyCode SprintKeyboard = KeyCode.Space;
+        public KeyCode SprintKeyboard = KeyCode.F;
         public KeyCode CrouchKeyboard = KeyCode.LeftShift;
-        public KeyCode JumpKeyboard = KeyCode.Joystick1Button3;
+        public KeyCode JumpKeyboard = KeyCode.Space;
         private float _turnSpeedMultiplier;
         private float _speed = 0f;
         private float _direction = 0f;
