@@ -30,7 +30,7 @@ namespace GenericStateSystem.ActionStates
             _anim = _character.anim;
         }
 
-        public override void UpdatesTATE()
+        public override void UpdateState()
         {
             TransitionState();
             _input.x = Input.GetAxis("Horizontal");

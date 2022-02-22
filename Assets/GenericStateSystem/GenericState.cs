@@ -10,8 +10,9 @@
             _character = _c;
             _stateMachine = _s;
         }
+
         public abstract void BeginState();
-        public abstract void UpdatesTATE();
+        public abstract void UpdateState();
         public abstract void UpdatePhysicsState();
         public abstract void TransitionState();
         public abstract void EndState();

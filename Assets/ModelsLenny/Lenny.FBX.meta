@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 057398e5858ca47908dc2ce041e87645
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 20200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -121,6 +121,7 @@ ModelImporter:
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
@@ -130,6 +131,9 @@ ModelImporter:
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -676,8 +680,7 @@ ModelImporter:
     - name: R_Toe
       parentName: R_Ball
       position: {x: -0.16950311, y: 0, z: -0.000000015987398}
-      rotation: {x: 0.000000027059286, y: -0.00000006030314, z: 0.000000058363863,
-        w: 1}
+      rotation: {x: 0.000000027059286, y: -0.00000006030314, z: 0.000000058363863, w: 1}
       scale: {x: 1.0000007, y: 1, z: 1.0000007}
     - name: Spine_01
       parentName: ROOT
@@ -717,8 +720,7 @@ ModelImporter:
     - name: Head_Top
       parentName: Head
       position: {x: -0.41651413, y: -0.00000011191177, z: -0.000000045963763}
-      rotation: {x: -0.0000001135777, y: 0.00000023748726, z: -0.000000014435473,
-        w: 1}
+      rotation: {x: -0.0000001135777, y: 0.00000023748726, z: -0.000000014435473, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Eye
       parentName: Head
@@ -728,8 +730,7 @@ ModelImporter:
     - name: R_Pupil
       parentName: R_Eye
       position: {x: -0, y: -0.00000012789918, z: 0}
-      rotation: {x: -0.000000051237272, y: -0.000000010514698, z: -0.000000004589879,
-        w: 1}
+      rotation: {x: -0.000000051237272, y: -0.000000010514698, z: -0.000000004589879, w: 1}
       scale: {x: 1, y: 0.99999994, z: 0.99999994}
     - name: L_Eye
       parentName: Head
@@ -739,8 +740,7 @@ ModelImporter:
     - name: L_Pupil
       parentName: L_Eye
       position: {x: -0, y: -0.00000012789918, z: 0}
-      rotation: {x: -0.000000051237272, y: -0.000000010514698, z: -0.000000004589879,
-        w: 1}
+      rotation: {x: -0.000000051237272, y: -0.000000010514698, z: -0.000000004589879, w: 1}
       scale: {x: 1, y: 0.99999994, z: 0.99999994}
     - name: R_Clavicle
       parentName: Spine_Top
@@ -785,8 +785,7 @@ ModelImporter:
     - name: R_Thumb02 1
       parentName: R_Thumb02
       position: {x: -0.041392796, y: 0, z: 0}
-      rotation: {x: 0.000000059138987, y: -0.00000003103924, z: -0.000000060099985,
-        w: 1}
+      rotation: {x: 0.000000059138987, y: -0.00000003103924, z: -0.000000060099985, w: 1}
       scale: {x: 1.0000001, y: 1.0000006, z: 1.0000007}
     - name: R_Mid_01
       parentName: R_Palm
@@ -1050,6 +1049,7 @@ ModelImporter:
   animationType: 3
   humanoidOversampling: 1
   avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

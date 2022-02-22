@@ -3,7 +3,7 @@
     public interface IState
     {
         void BeginState();
-        void UpdatesTATE();
+        void UpdateState();
         void UpdatePhysicsState();
         void TransitionState();
         void EndState();

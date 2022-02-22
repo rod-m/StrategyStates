@@ -52,11 +52,10 @@ namespace GenericStateSystem
             defaultState = new DefaultState(this, stateMachine);
             stateMachine.InitState(defaultState);
         }
-
-        // Update is called once per frame
+        
         public virtual void Update()
         {
-            stateMachine.ActiveState.UpdatesTATE();
+            stateMachine.ActiveState.UpdateState();
             
         }
 
