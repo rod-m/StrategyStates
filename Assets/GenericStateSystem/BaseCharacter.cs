@@ -1,6 +1,7 @@
 ﻿using System;
 using GenericStateSystem.ActionStates;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GenericStateSystem
 {
@@ -10,11 +11,11 @@ namespace GenericStateSystem
     {
         #region Variables
 
-        public bool useCharacterForward = false;
+        //public bool useCharacterForward = false;
         [HideInInspector] public Animator anim;
         [HideInInspector] public Rigidbody rb;
-        public float collissionOverLapRadius = 0.1f;
-        public LayerMask whatIsGround;
+        //public float collissionOverLapRadius = 0.1f;
+        //public LayerMask whatIsGround;
         #endregion Variables
 
         #region States
@@ -33,11 +34,7 @@ namespace GenericStateSystem
 
         #region Animation
 
-        public bool IsGrounded()
-        {
-            return Physics.OverlapSphere(transform.position,
-                collissionOverLapRadius, whatIsGround).Length > 0;
-        }
+      
         
 
         #endregion
@@ -49,7 +46,7 @@ namespace GenericStateSystem
             anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
             stateMachine = new GenericStateMachine();
-            defaultState = new DefaultState(this, stateMachine);
+            defaultState = new DefaultState();
             stateMachine.InitState(defaultState);
         }
         
@@ -65,6 +62,10 @@ namespace GenericStateSystem
         }
 
         #endregion MonoBehaviourCallbacks
-   
+        public bool IsGrounded(IGrounded _prop)
+        {
+            return Physics.OverlapSphere(transform.position,
+                _prop.collissionOverLapRadius, _prop.whatIsGround).Length > 0;
+        }
     }
 }

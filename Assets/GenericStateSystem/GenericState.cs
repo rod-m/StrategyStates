@@ -2,15 +2,7 @@
 {
     public abstract class GenericState:IState
     {
-        protected BaseCharacter _character;
-        protected GenericStateMachine _stateMachine;
-
-        public GenericState(BaseCharacter _c, GenericStateMachine _s)
-        {
-            _character = _c;
-            _stateMachine = _s;
-        }
-
+        
         public abstract void BeginState();
         public abstract void UpdateState();
         public abstract void UpdatePhysicsState();

@@ -2,7 +2,8 @@
 {
     public class DefaultState:GenericState
     {
-        public DefaultState(BaseCharacter _c, GenericStateMachine _s) : base(_c, _s) { }
+        public DefaultState()
+        { }
 
         public override void BeginState()
         {
