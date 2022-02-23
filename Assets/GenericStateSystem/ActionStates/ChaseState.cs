@@ -11,12 +11,15 @@ namespace GenericStateSystem.ActionStates
         public override void BeginState()
         {
             startedChase = Time.time;
-            _character.anim.SetFloat("Speed", 1f);
+         //   _character.anim.speed = 2f;
+            _character.agent.speed = _character.npcProperties.ChaseSpeed;
+            _character.anim.SetFloat("Speed", 1.0f);
         }
 
         public override void UpdateState()
         {
-   
+            Debug.DrawRay(_character.transform.position, Vector3.forward, Color.green);
+            TransitionState();
         }
 
         public override void UpdatePhysicsState()
@@ -28,16 +31,21 @@ namespace GenericStateSystem.ActionStates
                 _character.agent.destination = _target;
                
             }
-         TransitionState();
+      
         }
 
         public override void TransitionState()
         {
-            if (Time.time - startedChase > _character.npcProperties.ChaseTime)
+            float durationOfChase = Time.time - startedChase;
+            Debug.Log($"durationOfChase {durationOfChase}");
+            if ( durationOfChase > _character.npcProperties.ChaseTime)
             {
                 _character.stateMachine.MakeTransitionState(new PatrolState(_character));
             }
-          
+           else if (_character.agent.remainingDistance < _character.npcProperties.AttackDistance)
+            {
+                _character.stateMachine.MakeTransitionState(new AttackState(_character));
+            }
         }
 
         public override void EndState()

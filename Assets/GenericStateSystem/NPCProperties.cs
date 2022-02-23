@@ -6,6 +6,10 @@ namespace GenericStateSystem
     public class NPCProperties : ScriptableObject, IGrounded
     {
         public float PlayerDistanceAlert = 10f;
+        public float AttackDistance = 1f;
+        public float AttackSpeed = 3f;
+        public float PatrolSpeed = 1f;
+        public float ChaseSpeed = 3f;
         public float ChaseTime = 10f;
         public float TurnSpeed = 10f;
         public float height = 2f;

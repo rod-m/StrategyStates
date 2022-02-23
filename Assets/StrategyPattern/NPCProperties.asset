@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: NPCProperties
   m_EditorClassIdentifier: 
   PlayerDistanceAlert: 10
-  ChaseTime: 2.95
+  AttackDistance: 2.69
+  AttackSpeed: 1.66
+  ChaseTime: 4
   TurnSpeed: 10
   height: 2
   _whatIsGround:

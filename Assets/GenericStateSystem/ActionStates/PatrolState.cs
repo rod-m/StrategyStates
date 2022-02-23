@@ -4,6 +4,7 @@ namespace GenericStateSystem.ActionStates
 {
     public class PatrolState : NPCState
     {
+       
         private int nextWaypoint = 0;
         public PatrolState(NPCCharacter _c) : base(_c) 
         {
@@ -11,7 +12,9 @@ namespace GenericStateSystem.ActionStates
 
         public override void BeginState()
         {
-            _character.anim.SetFloat("Speed", 0.5f); // walk
+            _character.anim.SetFloat("Speed", 0.5f);
+            _character.anim.speed = 1f;
+            _character.agent.speed = _character.npcProperties.PatrolSpeed;
             if (_character.wayPoints != null)
             {
                 ProceedToPoint();
@@ -22,6 +25,7 @@ namespace GenericStateSystem.ActionStates
         {
             int nextIndex = nextWaypoint % _character.wayPoints.Length;
             _character.agent.destination = _character.wayPoints[nextIndex].position;
+          
             nextWaypoint++;
         }
         public override void UpdateState()
@@ -31,7 +35,7 @@ namespace GenericStateSystem.ActionStates
 
         public override void UpdatePhysicsState()
         {
-            if (_character.agent.remainingDistance < 1f)
+            if (_character.agent.remainingDistance < 0.5f)
             {
                 ProceedToPoint();
             }
