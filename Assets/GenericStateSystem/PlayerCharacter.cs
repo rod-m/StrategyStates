@@ -1,14 +1,9 @@
-﻿using GenericStateSystem.ActionStates;
-using UnityEngine;
-
+﻿using UnityEngine;
 namespace GenericStateSystem
 {
-    public class PlayerCharacter : BaseCharacter
+    public abstract class PlayerCharacter : BaseCharacter
     {
         public PlayerProperties playerProperties;  // share all params to states
-
-      
-
-       
+        
     }
 }

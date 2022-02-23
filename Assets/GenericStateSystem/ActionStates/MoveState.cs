@@ -3,14 +3,8 @@ namespace GenericStateSystem.ActionStates
 {
     public class MoveState : PlayerState
     {
-        // refactored all public properties to scriptable object PlayerProperties
-        //public bool UseCharacterForward = true;
-        //public bool LockToCameraForward = false;
-        //public float TurnSpeed = 10f;
-        //public KeyCode SprintJoystick = KeyCode.JoystickButton2;
-        //public KeyCode SprintKeyboard = KeyCode.F;
-        //public KeyCode CrouchKeyboard = KeyCode.LeftShift;
-        //public KeyCode JumpKeyboard = KeyCode.Space;
+        #region Variables
+
         private float _turnSpeedMultiplier;
         private float _speed = 0f;
         private float _direction = 0f;
@@ -21,6 +15,7 @@ namespace GenericStateSystem.ActionStates
         private Quaternion _freeRotation;
         private Camera _mainCamera;
         private float _velocity;
+        #endregion Variables
         public MoveState(PlayerCharacter _c) : base(_c)
         {
         }
@@ -34,35 +29,19 @@ namespace GenericStateSystem.ActionStates
         public override void UpdateState()
         {
             TransitionState();
-            _input.x = Input.GetAxis("Horizontal");
-            _input.y = Input.GetAxis("Vertical");
-        }
-        
-
-        public override void UpdatePhysicsState()
-        {
-            
             if (!_character.IsGrounded(_character.playerProperties))
             {
                 return;
             }
-
+            
+            _input.x = Input.GetAxis("Horizontal");
+            _input.y = Input.GetAxis("Vertical");
             // set speed to both vertical and horizontal inputs
-            if (_character.playerProperties.useCharacterForward)
-                _speed = Mathf.Abs(_input.x) + _input.y;
-            else
-                _speed = Mathf.Abs(_input.x) + Mathf.Abs(_input.y);
-
+            _speed = Mathf.Abs(_input.x) + Mathf.Abs(_input.y);
             _speed = Mathf.Clamp(_speed, 0f, 1f);
             _speed = Mathf.SmoothDamp(_character.anim.GetFloat("Speed"), _speed, ref _velocity, 0.1f);
             _character.anim.SetFloat("Speed", _speed);
-
-            if (_input.y < 0f && _character.playerProperties.useCharacterForward)
-                _direction = _input.y;
-            else
-                _direction = 0f;
-
-            _character.anim.SetFloat("Direction", _direction);
+            
             //is couching
             bool _isCrouching = (Input.GetKey(_character.playerProperties.CrouchKeyboard));
             // set sprinting
@@ -91,6 +70,7 @@ namespace GenericStateSystem.ActionStates
             }
         }
 
+      
         private void UpdateTargetDirection()
         {
             _turnSpeedMultiplier = 1f;
@@ -102,6 +82,10 @@ namespace GenericStateSystem.ActionStates
 
             // determine the direction the player will face based on input and the referenceTransform's right and forward directions
             _targetDirection = _input.x * right + _input.y * forward;
+        }
+        public override void UpdatePhysicsState()
+        {
+           
         }
 
         public override void TransitionState()
@@ -117,5 +101,6 @@ namespace GenericStateSystem.ActionStates
             _character.anim.SetBool("isSprinting", false);
             _character.anim.SetBool("isCrouching", false);
         }
+        
     }
 }

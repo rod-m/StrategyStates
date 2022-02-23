@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using GenericStateSystem;
+﻿using GenericStateSystem;
 using GenericStateSystem.ActionStates;
 using UnityEngine;
 

@@ -4,18 +4,13 @@ namespace GenericStateSystem.ActionStates
 {
     public class JumpState:PlayerState
     {
-        
-        //public float JumpForce = 10f;
-        private int _startJump = 0;
+
         public JumpState(PlayerCharacter _c) : base(_c) 
         {
         }
 
         public override void BeginState()
         {
-            _startJump = 0;
-         
-           
             if (_character.IsGrounded(_character.playerProperties))
             {
                 _character.anim.SetFloat("Speed", 0); // stop wall anim
@@ -38,13 +33,12 @@ namespace GenericStateSystem.ActionStates
 
         public override void TransitionState()
         {
-            if (_character.IsGrounded(_character.playerProperties) && _startJump > 90)
+            if (_character.IsGrounded(_character.playerProperties))
             {
                 
                 _character.stateMachine.MakeTransitionState(new MoveState(_character));
             }
-            //Debug.Log($"Ground is {_character.IsGrounded()} {_startJump}");
-            _startJump++;
+        
         }
 
         public override void EndState()

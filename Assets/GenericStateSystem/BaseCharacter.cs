@@ -10,35 +10,16 @@ namespace GenericStateSystem
     public abstract class BaseCharacter : MonoBehaviour
     {
         #region Variables
-
-        //public bool useCharacterForward = false;
+        
         [HideInInspector] public Animator anim;
         [HideInInspector] public Rigidbody rb;
-        //public float collissionOverLapRadius = 0.1f;
-        //public LayerMask whatIsGround;
+  
         #endregion Variables
 
-        #region States
-
-        public IState defaultState;
-        
-
-        #endregion States
-
-        #region StateMachineVariables
-
+        public GenericState defaultState;
+    
         public GenericStateMachine stateMachine;
         
-
-        #endregion StateMachineVariables
-
-        #region Animation
-
-      
-        
-
-        #endregion
-
         #region MonoBehaviourCallbacks
 
         public virtual void Start()
@@ -62,6 +43,8 @@ namespace GenericStateSystem
         }
 
         #endregion MonoBehaviourCallbacks
+        
+        // use IGrounded Interface for shared properties between Player and NPC
         public bool IsGrounded(IGrounded _prop)
         {
             return Physics.OverlapSphere(transform.position,

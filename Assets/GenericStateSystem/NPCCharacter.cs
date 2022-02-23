@@ -5,36 +5,25 @@ namespace GenericStateSystem
 {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(LookAt))]
-    public class NPCCharacter : BaseCharacter
+    public abstract class NPCCharacter : BaseCharacter
     {
-        Vector2 smoothDeltaPosition = Vector2.zero;
-        Vector2 velocity = Vector2.zero;
+
         [HideInInspector] public LookAt lookAt;
         public Transform[] wayPoints;
         public NPCProperties npcProperties;  // share all params to states
         [HideInInspector] public NavMeshAgent agent;
         
-        private float _turnSpeedMultiplier;
-        private float _speed = 0f;
-        private float _direction = 0f;
-        private bool _isSprinting = false;
-       
-        private Vector3 _targetDirection;
-      
-        private Quaternion _freeRotation;
-        private Camera _mainCamera;
-        private float _velocity;
+
         public override void Start()
         {
             base.Start();
-            _mainCamera = Camera.main;
+
             lookAt = GetComponent<LookAt>();
             agent = GetComponent<NavMeshAgent>();
             agent.updatePosition = true;
+            
         }
-
-     
-    
+        
         public float TargetDistance(string _tag, out Vector3 _target)
         {
             RaycastHit hit;
@@ -59,5 +48,6 @@ namespace GenericStateSystem
             _target = Vector3.zero;
             return Single.PositiveInfinity;
         }
+        
     }
 }
