@@ -2,29 +2,33 @@
 
 namespace GenericStateSystem.ActionStates
 {
-    public class JumpState:GenericState
+    public class JumpState:PlayerState
     {
-        private Animator _anim;
-        public float JumpForce = 10f;
+        
+        //public float JumpForce = 10f;
         private int _startJump = 0;
-        public JumpState(BaseCharacter _c, GenericStateMachine _s) : base(_c, _s)
+        public JumpState(PlayerCharacter _c) : base(_c) 
         {
         }
 
         public override void BeginState()
         {
             _startJump = 0;
-            _anim = _character.anim;
-            _anim.SetTrigger("Jump");
-            if (_character.IsGrounded())
+         
+           
+            if (_character.IsGrounded(_character.playerProperties))
             {
-                _character.rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+                _character.anim.SetFloat("Speed", 0); // stop wall anim
+                _character.anim.SetTrigger("Jump");
+                _character.anim.applyRootMotion = false; // so jump move forward
+                _character.rb.AddForce(Vector3.up * _character.playerProperties.JumpForce, ForceMode.Impulse);
             }
         }
 
         public override void UpdateState()
         {
             TransitionState();
+            
         }
 
         public override void UpdatePhysicsState()
@@ -34,17 +38,18 @@ namespace GenericStateSystem.ActionStates
 
         public override void TransitionState()
         {
-            if (_character.IsGrounded() && _startJump > 90)
+            if (_character.IsGrounded(_character.playerProperties) && _startJump > 90)
             {
-                _character.stateMachine.MakeTransitionState(new MoveState(_character, _character.stateMachine));
+                
+                _character.stateMachine.MakeTransitionState(new MoveState(_character));
             }
-
+            //Debug.Log($"Ground is {_character.IsGrounded()} {_startJump}");
             _startJump++;
         }
 
         public override void EndState()
         {
-            
+            _character.anim.applyRootMotion = true;
         }
     }
 }

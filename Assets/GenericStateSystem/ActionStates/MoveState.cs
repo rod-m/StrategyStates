@@ -1,33 +1,34 @@
 ﻿using UnityEngine;
 namespace GenericStateSystem.ActionStates
 {
-    public class MoveState : GenericState
+    public class MoveState : PlayerState
     {
-        public bool UseCharacterForward = true;
-        public bool LockToCameraForward = false;
-        public float TurnSpeed = 10f;
-        public KeyCode SprintJoystick = KeyCode.JoystickButton2;
-        public KeyCode SprintKeyboard = KeyCode.F;
-        public KeyCode CrouchKeyboard = KeyCode.LeftShift;
-        public KeyCode JumpKeyboard = KeyCode.Space;
+        // refactored all public properties to scriptable object PlayerProperties
+        //public bool UseCharacterForward = true;
+        //public bool LockToCameraForward = false;
+        //public float TurnSpeed = 10f;
+        //public KeyCode SprintJoystick = KeyCode.JoystickButton2;
+        //public KeyCode SprintKeyboard = KeyCode.F;
+        //public KeyCode CrouchKeyboard = KeyCode.LeftShift;
+        //public KeyCode JumpKeyboard = KeyCode.Space;
         private float _turnSpeedMultiplier;
         private float _speed = 0f;
         private float _direction = 0f;
         private bool _isSprinting = false;
-        private Animator _anim;
+       
         private Vector3 _targetDirection;
         private Vector2 _input;
         private Quaternion _freeRotation;
         private Camera _mainCamera;
         private float _velocity;
-        public MoveState(BaseCharacter _c, GenericStateMachine _s) : base(_c, _s)
+        public MoveState(PlayerCharacter _c) : base(_c)
         {
         }
 
         public override void BeginState()
         {
             _mainCamera = Camera.main;
-            _anim = _character.anim;
+           
         }
 
         public override void UpdateState()
@@ -40,8 +41,14 @@ namespace GenericStateSystem.ActionStates
 
         public override void UpdatePhysicsState()
         {
+            
+            if (!_character.IsGrounded(_character.playerProperties))
+            {
+                return;
+            }
+
             // set speed to both vertical and horizontal inputs
-            if (_character.useCharacterForward)
+            if (_character.playerProperties.useCharacterForward)
                 _speed = Mathf.Abs(_input.x) + _input.y;
             else
                 _speed = Mathf.Abs(_input.x) + Mathf.Abs(_input.y);
@@ -50,23 +57,23 @@ namespace GenericStateSystem.ActionStates
             _speed = Mathf.SmoothDamp(_character.anim.GetFloat("Speed"), _speed, ref _velocity, 0.1f);
             _character.anim.SetFloat("Speed", _speed);
 
-            if (_input.y < 0f && _character.useCharacterForward)
+            if (_input.y < 0f && _character.playerProperties.useCharacterForward)
                 _direction = _input.y;
             else
                 _direction = 0f;
 
             _character.anim.SetFloat("Direction", _direction);
             //is couching
-            bool _isCrouching = (Input.GetKey(CrouchKeyboard));
+            bool _isCrouching = (Input.GetKey(_character.playerProperties.CrouchKeyboard));
             // set sprinting
-            _isSprinting = ((Input.GetKey(SprintJoystick) || Input.GetKey(SprintKeyboard)) && _input != Vector2.zero &&
+            _isSprinting = ((Input.GetKey(_character.playerProperties.SprintJoystick) || Input.GetKey(_character.playerProperties.SprintKeyboard)) && _input != Vector2.zero &&
                             _direction >= 0f);
             if (_isCrouching)
             {
                 _isSprinting = false;
             }
-            _anim.SetBool("isSprinting", _isSprinting);
-            _anim.SetBool("isCrouching", _isCrouching);
+            _character.anim.SetBool("isSprinting", _isSprinting);
+            _character.anim.SetBool("isCrouching", _isCrouching);
             // Update target direction relative to the camera view (or not if the Keep Direction option is checked)
             UpdateTargetDirection();
             if (_input != Vector2.zero && _targetDirection.magnitude > 0.1f)
@@ -80,7 +87,7 @@ namespace GenericStateSystem.ActionStates
                 var euler = new Vector3(0, eulerY, 0);
 
                 _character.transform.rotation = Quaternion.Slerp(_character.transform.rotation, Quaternion.Euler(euler),
-                    TurnSpeed * _turnSpeedMultiplier * Time.deltaTime);
+                    _character.playerProperties.TurnSpeed * _turnSpeedMultiplier * Time.deltaTime);
             }
         }
 
@@ -99,16 +106,16 @@ namespace GenericStateSystem.ActionStates
 
         public override void TransitionState()
         {
-            if (Input.GetKeyDown(JumpKeyboard))
+            if (Input.GetKeyDown(_character.playerProperties.JumpKeyboard))
             {
-                _character.stateMachine.MakeTransitionState(new JumpState(_character, _character.stateMachine));
+                _character.stateMachine.MakeTransitionState(new JumpState(_character));
             }
         }
 
         public override void EndState()
         {
-            _anim.SetBool("isSprinting", false);
-            _anim.SetBool("isCrouching", false);
+            _character.anim.SetBool("isSprinting", false);
+            _character.anim.SetBool("isCrouching", false);
         }
     }
 }
